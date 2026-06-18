@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Color Palette Generator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 60px;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 30px;
+  }
+  .palette {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .swatch {
+    width: 120px;
+    height: 150px;
+    margin: 5px;
+    border-radius: 6px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-family: monospace;
+  }
+  .swatch span {
+    background: rgba(0,0,0,0.4);
+    width: 100%;
+    padding: 6px 0;
+    border-radius: 0 0 6px 6px;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Color Palette Generator</h1>
+  <button onclick="generatePalette()">Generate New Palette</button>
+
+  <div class="palette" id="palette"></div>
+
+  <script>
+    function randomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    function generatePalette() {
+      const paletteDiv = document.getElementById('palette');
+      paletteDiv.innerHTML = '';
+
+      for (let i = 0; i < 5; i++) {
+        const color = randomColor();
+        const swatch = document.createElement('div');
+        swatch.className = 'swatch';
+        swatch.style.backgroundColor = color;
+
+        const label = document.createElement('span');
+        label.textContent = color;
+
+        swatch.appendChild(label);
+
+        // Click a swatch to copy its hex code
+        swatch.onclick = () => {
+          navigator.clipboard.writeText(color);
+          label.textContent = 'Copied!';
+          setTimeout(() => label.textContent = color, 800);
+        };
+
+        paletteDiv.appendChild(swatch);
+      }
+    }
+
+    generatePalette(); // generate one on page load
+  </script>
+
+</body>
+</html>
